@@ -21,6 +21,7 @@ defmodule PageCrawlr.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:httpoison, "~> 1.4"},
       {:mix_test_watch, "~> 0.9.0"},
       {:mox, "~> 0.5.1"}
       # {:dep_from_hexpm, "~> 0.3.0"},
