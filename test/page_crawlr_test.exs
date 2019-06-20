@@ -32,9 +32,9 @@ defmodule PageCrawlrTest do
       end)
 
       assert %{
-        assets: ["/someimg.jpg", "/someimg_1.jpg"],
-        links: ["https://github.com/philss/floki", "https://hex.pm/packages/floki"]
-      } = PageCrawlr.fetch("https://somerandomurl.localhost")
+               assets: ["/someimg.jpg", "/someimg_1.jpg"],
+               links: ["https://github.com/philss/floki", "https://hex.pm/packages/floki"]
+             } = PageCrawlr.fetch("https://somerandomurl.localhost")
     end
   end
 end

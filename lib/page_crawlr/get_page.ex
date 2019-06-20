@@ -6,6 +6,7 @@ defmodule PageCrawlr.GetPage do
   """
   def get(url) do
     resp = HTTPoison.get!(url)
+
     if 200 <= resp.status_code and resp.status_code < 300 do
       {:ok, resp.body}
     else

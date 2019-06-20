@@ -4,7 +4,7 @@ defmodule PageCrawlr do
   """
 
   # NOTE in practice, this would be set in config
-  @get_page if Mix.env == :test, do: PageCrawlr.GetPageMock, else: PageCrawlr.GetPage
+  @get_page if Mix.env() == :test, do: PageCrawlr.GetPageMock, else: PageCrawlr.GetPage
 
   @doc """
   fetch image assets url and links from a page.
@@ -14,8 +14,7 @@ defmodule PageCrawlr do
   def fetch(url) do
     with {:ok, html} <- @get_page.get(url),
          assets <- Floki.find(html, "img") |> Floki.attribute("src"),
-         links <- Floki.find(html, "a") |> Floki.attribute("href")
-    do
+         links <- Floki.find(html, "a") |> Floki.attribute("href") do
       %{assets: assets, links: links}
     else
       {:error, msg} when is_integer(msg) ->
