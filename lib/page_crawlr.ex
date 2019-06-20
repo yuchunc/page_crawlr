@@ -4,15 +4,7 @@ defmodule PageCrawlr do
   """
 
   @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> PageCrawlr.hello()
-      :world
-
+  fetch image assets url and links from a page.
   """
-  def hello do
-    :world
-  end
+  def fetch(""), do: %{assets: [], links: []}
 end
