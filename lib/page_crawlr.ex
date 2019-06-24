@@ -21,4 +21,10 @@ defmodule PageCrawlr do
         "Can't get url, http error: #{msg}"
     end
   end
+
+  def fetch_nest(url, acc \\ %{}) do
+    %{assets: assets, links: links} = fetch(url)
+
+    Enum.reduce(links, Map.put(acc, url, assets), &fetch_nest/2)
+  end
 end

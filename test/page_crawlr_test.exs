@@ -37,4 +37,68 @@ defmodule PageCrawlrTest do
              } = PageCrawlr.fetch("https://somerandomurl.localhost")
     end
   end
+
+  describe "fetch_nest/1" do
+    test "returns a map of assets url being key" do
+      PageCrawlr.GetPageMock
+      |> expect(:get, fn "https://firsturl.local" ->
+        html = """
+        <!doctype html>
+        <html>
+          <body>
+            <a href="https://secondurl.local"> Second link </a>
+            <img src="/someimg_1.jpg" />
+          </body>
+        </html>
+        """
+
+        {:ok, html}
+      end)
+      |> expect(:get, fn "https://secondurl.local" ->
+        html = """
+        <!doctype html>
+        <html>
+          <body>
+            <a href="https://thirdurl.local"> Thirsd links </a>
+            <a href="https://fourthurl.local"> Fourth links </a>
+            <img src="/someimg_1.jpg" />
+          </body>
+        </html>
+        """
+
+        {:ok, html}
+      end)
+      |> expect(:get, fn "https://thirdurl.local" ->
+        html = """
+        <!doctype html>
+        <html>
+          <body>
+            <img src="/someimg_1.jpg" />
+          </body>
+        </html>
+        """
+
+        {:ok, html}
+      end)
+      |> expect(:get, fn "https://fourthurl.local" ->
+        html = """
+        <!doctype html>
+        <html>
+          <body>
+            <img src="/someimg_1.jpg" />
+          </body>
+        </html>
+        """
+
+        {:ok, html}
+      end)
+
+      assert %{
+               "https://firsturl.local" => ["/someimg_1.jpg"],
+               "https://secondurl.local" => ["/someimg_1.jpg"],
+               "https://thirdurl.local" => ["/someimg_1.jpg"],
+               "https://fourthurl.local" => ["/someimg_1.jpg"]
+             } = PageCrawlr.fetch_nest("https://firsturl.local")
+    end
+  end
 end
